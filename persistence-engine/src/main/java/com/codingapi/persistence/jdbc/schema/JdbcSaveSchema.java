@@ -14,15 +14,15 @@ public class JdbcSaveSchema extends SaveSchema {
     public String saveSchema(boolean hasId) {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO ");
-        sql.append(super.getSchemaName());
+        sql.append(property.getSchemaName());
         sql.append(" (");
-        for (Property property : super.getProperties(hasId)) {
+        for (Property property : property.getProperties(hasId)) {
             sql.append(property.getName());
             sql.append(", ");
         }
         sql.delete(sql.length() - 2, sql.length());
         sql.append(") VALUES (");
-        for (Property property : super.getProperties(hasId)) {
+        for (Property property : property.getProperties(hasId)) {
             sql.append("?, ");
         }
         sql.delete(sql.length() - 2, sql.length());

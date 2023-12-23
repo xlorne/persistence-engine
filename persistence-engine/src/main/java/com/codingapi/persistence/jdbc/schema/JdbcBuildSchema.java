@@ -16,10 +16,10 @@ public class JdbcBuildSchema extends BuildSchema {
     public String createSchema() {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE IF NOT EXISTS ");
-        sql.append(getSchemaName());
+        sql.append(property.getSchemaName());
         sql.append(" (");
         sql.append("id INT PRIMARY KEY AUTO_INCREMENT,");
-        List<Property> properties = super.getProperties(false);
+        List<Property> properties = property.getProperties(false);
         for (int i = 0; i < properties.size(); i++) {
             Property property = properties.get(i);
             sql.append(property.getName());

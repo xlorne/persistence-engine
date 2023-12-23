@@ -25,7 +25,7 @@ public class JdbcDomainPersistence implements DomainPersistence {
         Schema schema = SchemaContext.getINSTANCE().getSchema(domain.getClass());
         if (schema != null) {
             SaveSchema saveSchema = schema.insertSchema();
-            if (schema.hasIdValue(domain)) {
+            if (schema.getSchemaProperty().hasIdValue(domain)) {
                 jdbcTemplate.update(saveSchema.saveSchema(), saveSchema.getSaveValues(domain));
             } else {
                 KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -37,7 +37,7 @@ public class JdbcDomainPersistence implements DomainPersistence {
                     }
                     return ps;
                 }, keyHolder);
-                schema.setIdValue(domain, keyHolder.getKey());
+                schema.getSchemaProperty().setIdValue(domain, keyHolder.getKey());
             }
         }
     }

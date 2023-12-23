@@ -11,7 +11,7 @@ public class JdbcSearchSchema extends SearchSchema {
 
     @Override
     public String getById() {
-        return "SELECT * FROM " + getSchemaName() + " WHERE id = ?";
+        return "SELECT * FROM " + property.getSchemaName() + " WHERE id = ?";
     }
 
 

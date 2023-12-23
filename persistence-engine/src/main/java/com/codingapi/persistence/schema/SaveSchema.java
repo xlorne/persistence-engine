@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public abstract class SaveSchema extends AbsSchema {
+public abstract class SaveSchema  {
+
+    protected final SchemaProperty property;
 
     public SaveSchema(Schema schema) {
-        super(schema);
+        this.property = schema.getSchemaProperty();
     }
 
     public String saveSchema() {
@@ -21,7 +23,7 @@ public abstract class SaveSchema extends AbsSchema {
 
     public Object[] getSaveValues(Object object, boolean hasId) {
         List<Object> values = new ArrayList<>();
-        for (Property property : getProperties(hasId)) {
+        for (Property property : property.getProperties(hasId)) {
             values.add(property.get(object));
         }
         return values.toArray();
