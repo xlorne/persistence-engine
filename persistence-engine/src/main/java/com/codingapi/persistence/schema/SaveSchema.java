@@ -1,20 +1,15 @@
 package com.codingapi.persistence.schema;
 
 import lombok.Getter;
-import org.yaml.snakeyaml.introspector.Property;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public abstract class SaveSchema {
-
-    private final List<Property> properties;
-    private final String schemaName;
+public abstract class SaveSchema extends AbsSchema {
 
     public SaveSchema(Schema schema) {
-        this.properties = schema.getProperties();
-        this.schemaName = schema.getSchemaName();
+        super(schema);
     }
 
     public String saveSchema() {
@@ -26,10 +21,7 @@ public abstract class SaveSchema {
 
     public Object[] getSaveValues(Object object, boolean hasId) {
         List<Object> values = new ArrayList<>();
-        for (Property property : this.properties) {
-            if (hasId && property.getName().equals("id")) {
-                continue;
-            }
+        for (Property property : getProperties(hasId)) {
             values.add(property.get(object));
         }
         return values.toArray();

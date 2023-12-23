@@ -1,5 +1,6 @@
-package com.codingapi.persistence.jdbc;
+package com.codingapi.persistence.jdbc.schema;
 
+import com.codingapi.persistence.schema.BuildSchema;
 import com.codingapi.persistence.schema.SaveSchema;
 import com.codingapi.persistence.schema.Schema;
 import com.codingapi.persistence.schema.SearchSchema;
@@ -11,13 +12,13 @@ public class JdbcSchema extends Schema {
     }
 
     @Override
-    public String createSchema() {
-        return "CREATE TABLE IF NOT EXISTS " + getSchemaName() + " (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100))";
+    public BuildSchema buildSchema() {
+        return new JdbcBuildSchema(this);
     }
 
     @Override
     public SaveSchema insertSchema() {
-        return new JdbcInsertSchema(this);
+        return new JdbcSaveSchema(this);
     }
 
     @Override

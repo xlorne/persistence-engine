@@ -1,4 +1,4 @@
-package com.codingapi.persistence.jdbc;
+package com.codingapi.persistence.jdbc.schema;
 
 import com.codingapi.persistence.schema.Schema;
 import com.codingapi.persistence.schema.SearchSchema;

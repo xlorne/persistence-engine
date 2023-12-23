@@ -14,12 +14,10 @@ public class DemoRepository {
     private final DomainPersistence domainPersistence;
 
     public void save(Demo demo) {
-        log.info("DemoRepository.save:{}", demo);
         domainPersistence.save(demo);
     }
 
     public Demo get(int id) {
-        log.info("DemoRepository.get:{}", id);
         return domainPersistence.get(Demo.class, id);
     }
 

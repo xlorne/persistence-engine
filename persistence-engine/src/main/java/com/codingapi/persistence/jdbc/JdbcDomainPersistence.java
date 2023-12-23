@@ -48,7 +48,6 @@ public class JdbcDomainPersistence implements DomainPersistence {
         if (schema != null) {
             SearchSchema searchSchema = schema.getById();
             String sql = searchSchema.getById();
-            System.out.println(sql);
             try {
                 return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper<>(domainClass));
             } catch (EmptyResultDataAccessException e) {

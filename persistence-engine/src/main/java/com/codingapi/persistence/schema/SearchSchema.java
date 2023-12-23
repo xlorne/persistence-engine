@@ -1,24 +1,18 @@
 package com.codingapi.persistence.schema;
 
 import lombok.Getter;
-import org.yaml.snakeyaml.introspector.Property;
 
 @Getter
-public abstract class SearchSchema {
-
-    private final String schemaName;
-
-    private final Property idProperty;
+public abstract class SearchSchema extends AbsSchema{
 
     public SearchSchema(Schema schema) {
-        this.schemaName = schema.getSchemaName();
-        this.idProperty = schema.getIdProperty();
+       super(schema);
     }
 
     public abstract String getById();
 
     public Object getByIdValue(Object domain) {
-        return idProperty.get(domain);
+        return getIdProperty().get(domain);
     }
 
 }

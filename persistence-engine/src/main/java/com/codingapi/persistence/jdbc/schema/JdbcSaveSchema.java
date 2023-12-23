@@ -1,12 +1,12 @@
-package com.codingapi.persistence.jdbc;
+package com.codingapi.persistence.jdbc.schema;
 
+import com.codingapi.persistence.schema.Property;
 import com.codingapi.persistence.schema.SaveSchema;
 import com.codingapi.persistence.schema.Schema;
-import org.yaml.snakeyaml.introspector.Property;
 
-public class JdbcInsertSchema extends SaveSchema {
+public class JdbcSaveSchema extends SaveSchema {
 
-    public JdbcInsertSchema(Schema schema) {
+    public JdbcSaveSchema(Schema schema) {
         super(schema);
     }
 
@@ -16,19 +16,13 @@ public class JdbcInsertSchema extends SaveSchema {
         sql.append("INSERT INTO ");
         sql.append(super.getSchemaName());
         sql.append(" (");
-        for (Property property : super.getProperties()) {
-            if (hasId && property.getName().equals("id")) {
-                continue;
-            }
+        for (Property property : super.getProperties(hasId)) {
             sql.append(property.getName());
             sql.append(", ");
         }
         sql.delete(sql.length() - 2, sql.length());
         sql.append(") VALUES (");
-        for (Property property : super.getProperties()) {
-            if (hasId && property.getName().equals("id")) {
-                continue;
-            }
+        for (Property property : super.getProperties(hasId)) {
             sql.append("?, ");
         }
         sql.delete(sql.length() - 2, sql.length());

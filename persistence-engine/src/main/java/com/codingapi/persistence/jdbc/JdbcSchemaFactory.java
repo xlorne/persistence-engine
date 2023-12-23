@@ -1,5 +1,6 @@
 package com.codingapi.persistence.jdbc;
 
+import com.codingapi.persistence.jdbc.schema.JdbcSchema;
 import com.codingapi.persistence.schema.Schema;
 import com.codingapi.persistence.schema.SchemaFactory;
 
