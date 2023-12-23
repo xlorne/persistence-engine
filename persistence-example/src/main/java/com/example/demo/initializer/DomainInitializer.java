@@ -1,6 +1,6 @@
 package com.example.demo.initializer;
 
-import com.codingapi.persistence.register.SchemaRegister;
+import com.codingapi.persistence.register.DomainRegister;
 import com.example.demo.domain.Demo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -12,6 +12,6 @@ public class DomainInitializer implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        SchemaRegister.INSTANCE.register(Demo.class);
+        DomainRegister.INSTANCE.register(Demo.class);
     }
 }

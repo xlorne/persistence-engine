@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.codingapi.persistence.schema.OperationalDataStore;
+import com.codingapi.persistence.DomainPersistence;
 import com.example.demo.domain.Demo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,16 +11,16 @@ import org.springframework.stereotype.Repository;
 @AllArgsConstructor
 public class DemoRepository {
 
-    private final OperationalDataStore operationalDataStore;
+    private final DomainPersistence domainPersistence;
 
     public void save(Demo demo) {
         log.info("DemoRepository.save:{}", demo);
-        operationalDataStore.save(demo);
+        domainPersistence.save(demo);
     }
 
     public Demo get(int id) {
         log.info("DemoRepository.get:{}", id);
-        return operationalDataStore.get(Demo.class, id);
+        return domainPersistence.get(Demo.class, id);
     }
 
 }

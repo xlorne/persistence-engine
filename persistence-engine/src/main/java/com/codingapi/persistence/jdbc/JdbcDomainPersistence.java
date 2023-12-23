@@ -1,8 +1,8 @@
-package com.codingapi.persistence.schema.impl;
+package com.codingapi.persistence.jdbc;
 
-import com.codingapi.persistence.register.SchemaRegister;
-import com.codingapi.persistence.schema.InsertSchema;
-import com.codingapi.persistence.schema.OperationalDataStore;
+import com.codingapi.persistence.DomainPersistence;
+import com.codingapi.persistence.scanner.SchemaContext;
+import com.codingapi.persistence.schema.SaveSchema;
 import com.codingapi.persistence.schema.Schema;
 import com.codingapi.persistence.schema.SearchSchema;
 import lombok.AllArgsConstructor;
@@ -16,23 +16,23 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 @AllArgsConstructor
-public class OperationalJdbcDataStore implements OperationalDataStore {
+public class JdbcDomainPersistence implements DomainPersistence {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Override
     public void save(Object domain) {
-        Schema schema = SchemaRegister.INSTANCE.supports(domain.getClass());
+        Schema schema = SchemaContext.getINSTANCE().getSchema(domain.getClass());
         if (schema != null) {
-            InsertSchema insertSchema = schema.getInsertSchema();
-            if(schema.hasIdValue(domain)) {
-                jdbcTemplate.update(insertSchema.getInsertSql(), insertSchema.getInsertValue(domain));
+            SaveSchema saveSchema = schema.insertSchema();
+            if (schema.hasIdValue(domain)) {
+                jdbcTemplate.update(saveSchema.saveSchema(), saveSchema.getSaveValues(domain));
             } else {
                 KeyHolder keyHolder = new GeneratedKeyHolder();
                 jdbcTemplate.update(con -> {
-                    PreparedStatement ps = con.prepareStatement(insertSchema.getInsertSql(false), Statement.RETURN_GENERATED_KEYS);
+                    PreparedStatement ps = con.prepareStatement(saveSchema.saveSchema(false), Statement.RETURN_GENERATED_KEYS);
                     int index = 1;
-                    for(Object value : insertSchema.getInsertValue(domain,false)) {
+                    for (Object value : saveSchema.getSaveValues(domain, false)) {
                         ps.setObject(index++, value);
                     }
                     return ps;
@@ -44,7 +44,7 @@ public class OperationalJdbcDataStore implements OperationalDataStore {
 
     @Override
     public <T> T get(Class<T> domainClass, Object id) {
-        Schema schema = SchemaRegister.INSTANCE.supports(domainClass);
+        Schema schema = SchemaContext.getINSTANCE().getSchema(domainClass);
         if (schema != null) {
             SearchSchema searchSchema = schema.getById();
             String sql = searchSchema.getById();

@@ -9,14 +9,12 @@ import org.yaml.snakeyaml.introspector.PropertyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Slf4j
-public class Schema {
+public abstract class Schema {
 
-    @Getter
     private final Class<?> domainClass;
-    @Getter
     private final List<Property> properties;
-    @Getter
     private final Property idProperty;
 
     public Schema(Class<?> domainClass) {
@@ -34,22 +32,11 @@ public class Schema {
     }
 
 
-    public String getBuildSchema() {
-        return "CREATE TABLE IF NOT EXISTS " + getSchemaName() + " (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100))";
-    }
+    public abstract String createSchema();
 
+    public abstract SaveSchema insertSchema();
 
-    public String getDropSchema() {
-        return "DROP TABLE IF EXISTS " + getSchemaName();
-    }
-
-    public InsertSchema getInsertSchema() {
-        return new InsertSchema(this);
-    }
-
-    public SearchSchema getById() {
-        return new SearchSchema(this);
-    }
+    public abstract SearchSchema getById();
 
 
     public boolean supports(Class<?> domainClass) {

@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.codingapi.persistence.AutoConfiguration
+com.codingapi.persistence.AutoConfiguration,\
+com.codingapi.persistence.jdbc.JdbcAutoConfiguration

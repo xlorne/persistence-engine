@@ -1,6 +1,6 @@
-package com.codingapi.persistence.schema;
+package com.codingapi.persistence;
 
-public interface OperationalDataStore {
+public interface DomainPersistence {
 
     void save(Object domain);
 

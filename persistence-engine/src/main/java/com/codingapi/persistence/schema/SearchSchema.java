@@ -1,8 +1,10 @@
 package com.codingapi.persistence.schema;
 
+import lombok.Getter;
 import org.yaml.snakeyaml.introspector.Property;
 
-public class SearchSchema {
+@Getter
+public abstract class SearchSchema {
 
     private final String schemaName;
 
@@ -13,9 +15,7 @@ public class SearchSchema {
         this.idProperty = schema.getIdProperty();
     }
 
-    public String getById() {
-        return "SELECT * FROM " + schemaName + " WHERE id = ?";
-    }
+    public abstract String getById();
 
     public Object getByIdValue(Object domain) {
         return idProperty.get(domain);
